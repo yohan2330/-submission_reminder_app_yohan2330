@@ -5,7 +5,7 @@ echo "Please enter your name:"
 read yourName
 
 # Create the main directory with the user's name
-main_dir="submission_reminder_kouameyohan"
+main_dir="submission_reminder_KouameYohan"
 mkdir -p "$main_dir"
 
 # Create subdirectories
@@ -20,18 +20,15 @@ touch "$main_dir/scripts/functions.sh"
 touch "$main_dir/scripts/startup.sh"
 touch "$main_dir/data/submissions.txt"
 
-# Populate the files with provided content
-
-# Populate config.env
-cat < "$main_dir/config/config.env"
-# Configuration settings for the submission reminder app
+# Populate config.env with actual content
+cat <<EOL > "$main_dir/config/config.env"
 # This is the config file
 ASSIGNMENT="Shell Navigation"
 DAYS_REMAINING=2
 EOL
 
-# Populate reminder.sh
-cat < "$main_dir/scripts/reminder.sh"
+# Populate reminder.sh with actual content
+cat <<EOL > "$main_dir/scripts/reminder.sh"
 #!/bin/bash
 
 # Source environment variables and helper functions
@@ -49,8 +46,8 @@ echo "--------------------------------------------"
 check_submissions $submissions_file
 EOL
 
-# Populate functions.sh
-cat < "$main_dir/scripts/functions.sh"
+# Populate functions.sh with actual content
+cat <<EOL > "$main_dir/scripts/functions.sh"
 #!/bin/bash
 
 # Function to read submissions file and output students who have not submitted
@@ -74,7 +71,7 @@ function check_submissions {
 EOL
 
 # Populate submissions.txt with at least 5 additional student records
-cat < "$main_dir/data/submissions.txt"
+cat <<EOL > "$main_dir/data/submissions.txt"
 student, assignment, submission status
 Chinemerem, Shell Navigation, not submitted
 Chiagoziem, Git, submitted
@@ -83,7 +80,7 @@ Anissa, Shell Basics, submitted
 EOL
 
 # Create the startup.sh script
-cat < "$main_dir/scripts/startup.sh"
+cat <<EOL > "$main_dir/scripts/startup.sh"
 #!/bin/bash
 
 # Source the configuration and function files
