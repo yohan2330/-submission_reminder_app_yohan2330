@@ -1,24 +1,24 @@
 #!/bin/bash
 
-# Prompt the user for their name
+# Prompt the user for their name (we'll hardcode it for KouameYohan as per your request)
 echo "Please enter your name:"
 read yourName
 
-# Create the main directory with the user's name
+# Create the main directory with the user's name (hardcoded for KouameYohan)
 main_dir="submission_reminder_KouameYohan"
 mkdir -p "$main_dir"
 
 # Create subdirectories
 mkdir -p "$main_dir/config"
-mkdir -p "$main_dir/scripts"
-mkdir -p "$main_dir/data"
+mkdir -p "$main_dir/modules"
+mkdir -p "$main_dir/assets"
 
 # Create files in their respective directories
 touch "$main_dir/config/config.env"
-touch "$main_dir/scripts/reminder.sh"
-touch "$main_dir/scripts/functions.sh"
-touch "$main_dir/scripts/startup.sh"
-touch "$main_dir/data/submissions.txt"
+touch "$main_dir/modules/functions.sh"
+touch "$main_dir/modules/reminder.sh"
+touch "$main_dir/modules/startup.sh"
+touch "$main_dir/assets/submissions.txt"
 
 # Populate config.env with actual content
 cat <<EOL > "$main_dir/config/config.env"
@@ -28,7 +28,7 @@ DAYS_REMAINING=2
 EOL
 
 # Populate reminder.sh with actual content
-cat <<EOL > "$main_dir/scripts/reminder.sh"
+cat <<EOL > "$main_dir/modules/reminder.sh"
 #!/bin/bash
 
 # Source environment variables and helper functions
@@ -47,7 +47,7 @@ check_submissions $submissions_file
 EOL
 
 # Populate functions.sh with actual content
-cat <<EOL > "$main_dir/scripts/functions.sh"
+cat <<EOL > "$main_dir/modules/functions.sh"
 #!/bin/bash
 
 # Function to read submissions file and output students who have not submitted
@@ -70,34 +70,35 @@ function check_submissions {
 }
 EOL
 
-# Populate submissions.txt with at least 5 additional student records
-cat <<EOL > "$main_dir/data/submissions.txt"
+# Populate submissions.txt with at least 5 additional student records (with header)
+cat <<EOL > "$main_dir/assets/submissions.txt"
 student, assignment, submission status
 Chinemerem, Shell Navigation, not submitted
 Chiagoziem, Git, submitted
 Divine, Shell Navigation, not submitted
 Anissa, Shell Basics, submitted
+Michael, Shell Navigation, not submitted
 EOL
 
 # Create the startup.sh script
-cat <<EOL > "$main_dir/scripts/startup.sh"
+cat <<EOL > "$main_dir/modules/startup.sh"
 #!/bin/bash
 
 # Source the configuration and function files
 source "$main_dir/config/config.env"
-source "$main_dir/scripts/functions.sh"
+source "$main_dir/modules/functions.sh"
 
 # Start the reminder app
-echo "Starting the Submission Reminder App..."
+echo "Starting the Submission Reminder App for $ASSIGNMENT..."
 while true; do
-    check_reminders
-    sleep \$REMINDER_INTERVAL
+    "$main_dir/modules/reminder.sh"
+    sleep 86400  # Hardcode 24 hours (86400 seconds) since REMINDER_INTERVAL is not in config.env
 done
 EOL
 
 # Make all scripts executable
-chmod +x "$main_dir/scripts/reminder.sh"
-chmod +x "$main_dir/scripts/functions.sh"
-chmod +x "$main_dir/scripts/startup.sh"
+chmod +x "$main_dir/modules/reminder.sh"
+chmod +x "$main_dir/modules/functions.sh"
+chmod +x "$main_dir/modules/startup.sh"
 
 echo "Environment setup completed for $main_dir!"
